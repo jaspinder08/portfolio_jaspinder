@@ -8,13 +8,13 @@ class ExperienceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final isMobile = size.width < 900;
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 1024;
 
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 24 : 64,
+        horizontal: width < 600 ? 16 : 40,
         vertical: 100,
       ),
       child: ConstrainedBox(
@@ -257,28 +257,34 @@ class _TimelineItem extends StatelessWidget {
                 iconSize: 20,
               ),
               const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: isLeft && !isMobile
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    company,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: isLeft && !isMobile
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      company,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
-                  ),
-                  Text(
-                    role,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.accentCyan,
-                      fontWeight: FontWeight.w500,
+                    Text(
+                      role,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.accentCyan,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

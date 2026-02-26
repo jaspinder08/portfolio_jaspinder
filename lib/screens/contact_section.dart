@@ -9,17 +9,11 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final isMobile = size.width < 900;
-
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 24 : 64,
-        vertical: 100,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 100),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 800),
+        constraints: const BoxConstraints(maxWidth: 1100),
         child: Column(
           children: [
             const AnimatedSection(
@@ -67,15 +61,28 @@ class ContactSection extends StatelessWidget {
             ),
             AnimatedSection(
               delay: const Duration(milliseconds: 200),
-              child: isMobile
-                  ? Column(
-                      children: _buildContactBlocks(true),
-                    )
-                  : IntrinsicHeight(
-                      child: Row(
-                        children: _buildContactBlocks(false),
-                      ),
-                    ),
+              child: LayoutBuilder(builder: (context, constraints) {
+                final width = constraints.maxWidth;
+                double cardWidth;
+
+                if (width > 1024) {
+                  // Desktop: 3 cards
+                  cardWidth = (width - 48) / 3;
+                } else if (width > 700) {
+                  // Tablet: 2 cards
+                  cardWidth = (width - 24) / 2;
+                } else {
+                  // Mobile: 1 card
+                  cardWidth = width;
+                }
+
+                return Wrap(
+                  spacing: 24,
+                  runSpacing: 24,
+                  alignment: WrapAlignment.center,
+                  children: _buildContactBlocks(cardWidth),
+                );
+              }),
             ),
           ],
         ),
@@ -83,7 +90,7 @@ class ContactSection extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildContactBlocks(bool isMobile) {
+  List<Widget> _buildContactBlocks(double width) {
     final contacts = [
       {
         'icon': AppIcons.email,
@@ -105,29 +112,19 @@ class ContactSection extends StatelessWidget {
       },
     ];
 
-    final widgets = <Widget>[];
-    for (int i = 0; i < contacts.length; i++) {
-      final c = contacts[i];
-      final card = _ContactBlock(
-        icon: c['icon'] as IconData,
-        title: c['title'] as String,
-        value: c['value'] as String,
-        url: c['url'] as String,
+    return contacts.map((c) {
+      return SizedBox(
+        width: width,
+        child: IntrinsicHeight(
+          child: _ContactBlock(
+            icon: c['icon'] as IconData,
+            title: c['title'] as String,
+            value: c['value'] as String,
+            url: c['url'] as String,
+          ),
+        ),
       );
-
-      if (isMobile) {
-        widgets.add(card);
-        if (i < contacts.length - 1) {
-          widgets.add(const SizedBox(height: 16));
-        }
-      } else {
-        widgets.add(Expanded(child: card));
-        if (i < contacts.length - 1) {
-          widgets.add(const SizedBox(width: 24));
-        }
-      }
-    }
-    return widgets;
+    }).toList();
   }
 }
 

@@ -10,6 +10,7 @@ import 'skills_section.dart';
 import 'contact_section.dart';
 import 'projects_section.dart';
 import 'welcome_section.dart';
+import '../widgets/logo_mark.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -180,26 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppColors.accent, AppColors.accentCyan],
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'J',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22,
-                      ),
-                    ),
-                  ),
-                ),
+                const LogoMark(fontSize: 24),
                 const SizedBox(height: 14),
                 Text(
                   'Jaspinder Kaur',
@@ -363,13 +345,10 @@ class _NavBar extends StatelessWidget {
 class _LogoMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Jaspinder Kaur Bahara',
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.w800,
-        fontSize: 14,
-        letterSpacing: 1,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        child: LogoMark(fontSize: 18),
       ),
     );
   }
