@@ -110,8 +110,8 @@ class ContactSection extends StatelessWidget {
       {
         'icon': AppIcons.link,
         'title': 'LinkedIn',
-        'value': 'linkedin.com/in/jaspinderkaur',
-        'url': 'https://www.linkedin.com/in/jaspinderkaur',
+        'value': 'linkedin.com/in/jaspinderkaurbahara',
+        'url': 'https://www.linkedin.com/in/jaspinder-kaur-bahara-60640722a/',
       },
     ];
 
