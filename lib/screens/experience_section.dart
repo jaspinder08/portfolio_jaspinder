@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../providers/theme_provider.dart';
 import '../widgets/animated_section.dart';
 import '../widgets/app_icons.dart';
 
@@ -21,7 +20,7 @@ class ExperienceSection extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 1000),
         child: Column(
           children: [
-            const AnimatedSection(
+            AnimatedSection(
               child: Column(
                 children: [
                   Text(
@@ -29,7 +28,7 @@ class ExperienceSection extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       letterSpacing: -1,
                     ),
                   ),
@@ -38,7 +37,10 @@ class ExperienceSection extends StatelessWidget {
                     'My journey through innovative companies, building impactful mobile solutions',
                     style: TextStyle(
                       fontSize: 16,
-                      color: AppColors.textSecondary,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.7),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -89,10 +91,13 @@ class _Timeline extends StatelessWidget {
             child: Container(
               width: 2,
               decoration: BoxDecoration(
-                color: AppColors.accentCyan.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.accentCyan.withOpacity(0.8),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.8),
                     blurRadius: 12,
                   )
                 ],
@@ -153,19 +158,20 @@ class _TimelineItem extends StatelessWidget {
               width: 14,
               height: 14,
               decoration: BoxDecoration(
-                color: AppColors.bgBase,
+                color: Theme.of(context).colorScheme.background,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.accentCyan, width: 3),
-                boxShadow: const [
+                border: Border.all(
+                    color: Theme.of(context).colorScheme.secondary, width: 3),
+                boxShadow: [
                   BoxShadow(
-                    color: AppColors.accentCyan,
+                    color: Theme.of(context).colorScheme.secondary,
                     blurRadius: 12,
                     spreadRadius: 2,
                   )
                 ],
               ),
             ),
-            Expanded(child: _buildCard()),
+            Expanded(child: _buildCard(context)),
           ],
         ),
       );
@@ -183,7 +189,7 @@ class _TimelineItem extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: const EdgeInsets.only(right: 48),
-                      child: _buildCard(),
+                      child: _buildCard(context),
                     ),
                   )
                 : const SizedBox(),
@@ -193,12 +199,13 @@ class _TimelineItem extends StatelessWidget {
             width: 14,
             height: 14,
             decoration: BoxDecoration(
-              color: AppColors.bgBase,
+              color: Theme.of(context).colorScheme.background,
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.accentCyan, width: 3),
-              boxShadow: const [
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.secondary, width: 3),
+              boxShadow: [
                 BoxShadow(
-                  color: AppColors.accentCyan,
+                  color: Theme.of(context).colorScheme.secondary,
                   blurRadius: 12,
                   spreadRadius: 2,
                 )
@@ -211,7 +218,7 @@ class _TimelineItem extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 48),
-                      child: _buildCard(),
+                      child: _buildCard(context),
                     ),
                   )
                 : const SizedBox(),
@@ -221,16 +228,18 @@ class _TimelineItem extends StatelessWidget {
     );
   }
 
-  Widget _buildCard() {
+  Widget _buildCard(BuildContext context) {
     return Container(
       width: double.infinity,
-      constraints: const BoxConstraints(maxWidth: 450),
+      constraints: BoxConstraints(
+        maxWidth: isMobile ? double.infinity : 450,
+      ),
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: AppColors.bgCard,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: AppColors.border.withOpacity(0.4),
+          color: Theme.of(context).colorScheme.outline.withOpacity(0.4),
         ),
         boxShadow: [
           BoxShadow(
@@ -241,71 +250,83 @@ class _TimelineItem extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: isLeft && !isMobile
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
+        crossAxisAlignment: isMobile || isLeft
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.end,
         children: [
           Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: isLeft && !isMobile
-                ? MainAxisAlignment.end
-                : MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const AppIconContainer(
-                icon: AppIcons.business,
-                size: 40,
-                iconSize: 20,
-              ),
-              const SizedBox(width: 16),
+              if (isMobile || isLeft) ...[
+                const AppIconContainer(
+                  icon: AppIcons.business,
+                  size: 40,
+                  iconSize: 20,
+                ),
+                const SizedBox(width: 16),
+              ],
               Expanded(
                 child: Column(
-                  crossAxisAlignment: isLeft && !isMobile
-                      ? CrossAxisAlignment.end
-                      : CrossAxisAlignment.start,
+                  crossAxisAlignment: isMobile || isLeft
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.end,
                   children: [
                     Text(
                       company,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     Text(
                       role,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.accentCyan,
+                        color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
               ),
+              if (!isMobile && !isLeft) ...[
+                const SizedBox(width: 16),
+                const AppIconContainer(
+                  icon: AppIcons.business,
+                  size: 40,
+                  iconSize: 20,
+                ),
+              ],
             ],
           ),
           const SizedBox(height: 24),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: AppColors.accent.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: AppColors.accentCyan.withOpacity(0.3)),
+              border: Border.all(
+                  color:
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(AppIcons.date,
-                    size: 14, color: AppColors.accentCyan),
+                Icon(AppIcons.date,
+                    size: 14, color: Theme.of(context).colorScheme.secondary),
                 const SizedBox(width: 6),
                 Text(
                   duration,
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
+                  style: TextStyle(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.8),
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
@@ -316,12 +337,12 @@ class _TimelineItem extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             description,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: AppColors.textMuted,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               height: 1.6,
             ),
-            textAlign: isLeft && !isMobile ? TextAlign.right : TextAlign.left,
+            textAlign: isMobile || isLeft ? TextAlign.left : TextAlign.right,
           ),
         ],
       ),

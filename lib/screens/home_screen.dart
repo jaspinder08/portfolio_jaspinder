@@ -10,7 +10,7 @@ import 'skills_section.dart';
 import 'contact_section.dart';
 import 'projects_section.dart';
 import 'welcome_section.dart';
-import '../widgets/logo_mark.dart';
+import '../widgets/logo.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const LogoMark(fontSize: 24),
+                const Logo(fontSize: 24),
                 const SizedBox(height: 14),
                 Text(
                   'Jaspinder Kaur',
@@ -300,7 +300,7 @@ class _NavBar extends StatelessWidget {
               child: Row(
                 children: [
                   // Logo mark
-                  _LogoMark(),
+                  _LogoMark(onTap: () => onNav(0)),
                   const Spacer(),
                   // Desktop nav links
                   if (!isMobile)
@@ -343,12 +343,16 @@ class _NavBar extends StatelessWidget {
 }
 
 class _LogoMark extends StatelessWidget {
+  final VoidCallback onTap;
+  const _LogoMark({required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        child: LogoMark(fontSize: 18),
+        onTap: onTap,
+        child: const Logo(fontSize: 20),
       ),
     );
   }

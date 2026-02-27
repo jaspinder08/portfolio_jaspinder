@@ -1,11 +1,11 @@
 {
-    "name": "portfolio_app",
-    "short_name": "portfolio_app",
+    "name": "Jaspinder Portfolio",
+    "short_name": "Jaspinder",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#060A12",
+    "theme_color": "#06B6D4",
+    "description": "Portfolio of Jaspinder Kaur Bahara, Flutter Developer & UI Designer.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

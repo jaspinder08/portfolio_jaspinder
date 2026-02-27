@@ -16,10 +16,10 @@ class ContactSection extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 1100),
         child: Column(
           children: [
-            const AnimatedSection(
+            AnimatedSection(
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     'Ready to Scale Your Vision?',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -29,33 +29,36 @@ class ContactSection extends StatelessWidget {
                       letterSpacing: -1,
                     ),
                   ),
-                  SizedBox(height: 16),
-                  Text(
-                    'I partner with startups, founders, and businesses to build high-performance Flutter applications and resilient IoT ecosystems that drive real growth. Let’s discuss how I can help you scale.',
-                    style: TextStyle(
-                      fontSize: 18,
-                      height: 1.5,
-                      color: AppColors.textSecondary,
+                  const SizedBox(height: 16),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Text(
+                      'I partner with startups, founders, and businesses to build high-performance Flutter applications \n and resilient IoT ecosystems that drive real growth. Let’s discuss how I can help you scale.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        height: 1.5,
+                        color: AppColors.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.circle, color: Colors.green, size: 8),
-                      SizedBox(width: 8),
+                      const Icon(Icons.circle, color: Colors.green, size: 8),
+                      const SizedBox(width: 8),
                       Text(
-                        'Available for new freelance projects',
+                        'Available for new projects',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.accentCyan,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 56),
+                  const SizedBox(height: 56),
                 ],
               ),
             ),
@@ -68,7 +71,7 @@ class ContactSection extends StatelessWidget {
                 if (width > 1024) {
                   // Desktop: 3 cards
                   cardWidth = (width - 48) / 3;
-                } else if (width > 700) {
+                } else if (width >= 600) {
                   // Tablet: 2 cards
                   cardWidth = (width - 24) / 2;
                 } else {
@@ -113,8 +116,8 @@ class ContactSection extends StatelessWidget {
     ];
 
     return contacts.map((c) {
-      return SizedBox(
-        width: width,
+      return ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: width),
         child: IntrinsicHeight(
           child: _ContactBlock(
             icon: c['icon'] as IconData,
@@ -216,8 +219,8 @@ class _ContactBlockState extends State<_ContactBlock> {
                 const SizedBox(height: 24),
                 Text(
                   widget.title.toUpperCase(),
-                  style: const TextStyle(
-                    color: AppColors.accentCyan,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 1.5,
@@ -227,8 +230,8 @@ class _ContactBlockState extends State<_ContactBlock> {
                 Text(
                   widget.value,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     height: 1.4,
